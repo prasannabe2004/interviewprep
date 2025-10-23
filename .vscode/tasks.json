@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile and Run",
+            "type": "shell",
+            "command": "clear; if [[ '${fileExtname}' == '.cpp' || '${fileExtname}' == '.cxx' || '${fileExtname}' == '.cc' ]]; then g++ -o ${fileDirname}/${fileBasenameNoExtension} ${file} && ${fileDirname}/${fileBasenameNoExtension}; else gcc -o ${fileDirname}/${fileBasenameNoExtension} ${file} && ${fileDirname}/${fileBasenameNoExtension}; fi",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "detail": "Automatically compiles and runs C/C++ files using the appropriate compiler."
+        }
+    ]
+}
