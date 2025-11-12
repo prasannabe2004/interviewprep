@@ -4,14 +4,18 @@
         {
             "label": "Compile and Run",
             "type": "shell",
-            "command": "clear; if [[ '${fileExtname}' == '.cpp' || '${fileExtname}' == '.cxx' || '${fileExtname}' == '.cc' ]]; then g++ -o ${fileDirname}/${fileBasenameNoExtension} ${file}.out && ${fileDirname}/${fileBasenameNoExtension}; else gcc -o ${fileDirname}/${fileBasenameNoExtension}.out ${file} && ${fileDirname}/${fileBasenameNoExtension}.out; fi",
+            "command": "clear; if [[ '${fileExtname}' == '.cpp' || '${fileExtname}' == '.cxx' || '${fileExtname}' == '.cc' ]]; then g++ -o ${fileDirname}/${fileBasenameNoExtension}.out ${file} && ${fileDirname}/${fileBasenameNoExtension}.out; else gcc -o ${fileDirname}/${fileBasenameNoExtension}.out ${file} && ${fileDirname}/${fileBasenameNoExtension}.out; fi",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
             "presentation": {
                 "reveal": "always",
-                "panel": "shared"
+                "panel": "shared",
+                "focus": false,
+                "clear": true,
+                "echo": true,
+                "showReuseMessage": true
             },
             "detail": "Automatically compiles and runs C/C++ files using the appropriate compiler."
         }
