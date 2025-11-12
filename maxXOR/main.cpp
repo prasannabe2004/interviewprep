@@ -1,10 +1,10 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 using namespace std;
 
 class TrieNode {
-public:
+   public:
     TrieNode* child[2];
 
     TrieNode() {
@@ -16,14 +16,12 @@ public:
 class Trie {
     TrieNode* root;
 
-public:
-    Trie() {
-        root = new TrieNode();
-    }
+   public:
+    Trie() { root = new TrieNode(); }
 
     void insert(int num) {
         TrieNode* node = root;
-        for (int i = 31; i >= 0; i--) { // Assuming 32-bit integers
+        for (int i = 31; i >= 0; i--) {  // Assuming 32-bit integers
             int bit = (num >> i) & 1;
             if (!node->child[bit]) {
                 node->child[bit] = new TrieNode();

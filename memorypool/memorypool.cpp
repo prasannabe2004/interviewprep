@@ -1,6 +1,6 @@
-#include <iostream>
 #include <cstdint>
 #include <cstdlib>
+#include <iostream>
 
 struct MemBlock {
     size_t size;
@@ -8,17 +8,16 @@ struct MemBlock {
     bool free;
 };
 
-
 class MemPool {
-private:
+   private:
     uint8_t* pool;
     size_t poolSize;
     MemBlock* head;
 
-public:
+   public:
     MemPool(size_t size);
     ~MemPool();
-    
+
     void* alloc(size_t size);
     void free(void* ptr);
     void visualize() const;
@@ -32,15 +31,15 @@ MemPool::MemPool(size_t size) {
     head->next = nullptr;
     head->free = true;
 }
-MemPool::~MemPool() {
-    delete[] pool;
-}
+MemPool::~MemPool() { delete[] pool; }
 void* MemPool::alloc(size_t size) {
     MemBlock* current = head;
     while (current != nullptr) {
         if (current->free && current->size >= size) {
             if (current->size > size + sizeof(MemBlock)) {
-                MemBlock* newBlock = reinterpret_cast<MemBlock*>(reinterpret_cast<uint8_t*>(current) + sizeof(MemBlock) + size);
+                MemBlock* newBlock = reinterpret_cast<MemBlock*>(
+                    reinterpret_cast<uint8_t*>(current) + sizeof(MemBlock) +
+                    size);
                 newBlock->size = current->size - size - sizeof(MemBlock);
                 newBlock->next = current->next;
                 newBlock->free = true;
@@ -48,14 +47,16 @@ void* MemPool::alloc(size_t size) {
                 current->next = newBlock;
             }
             current->free = false;
-            return reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(current) + sizeof(MemBlock));
+            return reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(current) +
+                                           sizeof(MemBlock));
         }
         current = current->next;
     }
     return nullptr;
 }
 void MemPool::free(void* ptr) {
-    MemBlock* block = reinterpret_cast<MemBlock*>(reinterpret_cast<uint8_t*>(ptr) - sizeof(MemBlock));
+    MemBlock* block = reinterpret_cast<MemBlock*>(
+        reinterpret_cast<uint8_t*>(ptr) - sizeof(MemBlock));
     block->free = true;
     MemBlock* current = head;
     while (current != nullptr) {
@@ -69,7 +70,8 @@ void MemPool::free(void* ptr) {
 void MemPool::visualize() const {
     MemBlock* current = head;
     while (current != nullptr) {
-        std::cout << "Block size: " << current->size << ", Free: " << (current->free ? "Yes" : "No") << std::endl;
+        std::cout << "Block size: " << current->size
+                  << ", Free: " << (current->free ? "Yes" : "No") << std::endl;
         current = current->next;
     }
 }

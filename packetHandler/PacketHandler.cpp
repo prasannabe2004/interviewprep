@@ -2,17 +2,20 @@
 
 void TCPHandler::handle(const uint8_t* data, size_t len) {
     const struct tcphdr* tcp = reinterpret_cast<const struct tcphdr*>(data);
-    std::cout << "[TCP] Src Port: " << ntohs(tcp->source) << ", Dst Port: " << ntohs(tcp->dest) << "\n";
+    std::cout << "[TCP] Src Port: " << ntohs(tcp->source)
+              << ", Dst Port: " << ntohs(tcp->dest) << "\n";
 }
 
 void UDPHandler::handle(const uint8_t* data, size_t len) {
     const struct udphdr* udp = reinterpret_cast<const struct udphdr*>(data);
-    std::cout << "[UDP] Src Port: " << ntohs(udp->source) << ", Dst Port: " << ntohs(udp->dest) << "\n";
+    std::cout << "[UDP] Src Port: " << ntohs(udp->source)
+              << ", Dst Port: " << ntohs(udp->dest) << "\n";
 }
 
 void ICMPHandler::handle(const uint8_t* data, size_t len) {
     const struct icmphdr* icmp = reinterpret_cast<const struct icmphdr*>(data);
-    std::cout << "[ICMP] Type: " << static_cast<int>(icmp->type) << ", Code: " << static_cast<int>(icmp->code) << "\n";
+    std::cout << "[ICMP] Type: " << static_cast<int>(icmp->type)
+              << ", Code: " << static_cast<int>(icmp->code) << "\n";
 }
 
 Dispatcher::Dispatcher() {
@@ -33,9 +36,11 @@ void Dispatcher::dispatch_packet(const uint8_t* data, size_t len) {
     }
 }
 
-PacketReceiver::PacketReceiver(const std::string& interface_name) : running(true) {
+PacketReceiver::PacketReceiver(const std::string& interface_name)
+    : running(true) {
     char errbuf[PCAP_ERRBUF_SIZE];
-    handle = pcap_open_live(interface_name.c_str(), MAX_PACKET_SIZE, 1, 1000, errbuf);
+    handle = pcap_open_live(interface_name.c_str(), MAX_PACKET_SIZE, 1, 1000,
+                            errbuf);
     if (!handle) {
         std::cerr << "pcap_open_live() failed: " << errbuf << std::endl;
         exit(1);
@@ -51,12 +56,15 @@ void PacketReceiver::start() {
     std::thread processor(&PacketReceiver::processor_loop, this);
 
     // Blocking loop
-    pcap_loop(handle, 0, PacketReceiver::pcap_callback, reinterpret_cast<u_char*>(this));
+    pcap_loop(handle, 0, PacketReceiver::pcap_callback,
+              reinterpret_cast<u_char*>(this));
 
     processor.join();
 }
 
-void PacketReceiver::pcap_callback(u_char* user, const struct pcap_pkthdr* header, const u_char* packet) {
+void PacketReceiver::pcap_callback(u_char* user,
+                                   const struct pcap_pkthdr* header,
+                                   const u_char* packet) {
     PacketReceiver* self = reinterpret_cast<PacketReceiver*>(user);
 
     // Skip Ethernet header (assume Ethernet for simplicity)

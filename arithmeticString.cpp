@@ -7,10 +7,12 @@
  * @return The result of the evaluation.
  */
 long long evaluateExpression(const std::string& expression) {
-    long long result = 0;       // Stores the final result of all additions.
-    long long current_term = 0; // Stores the value of the current term being multiplied.
-    char last_op = '+';         // Stores the last operator encountered.
-    long long current_num = 0;  // Stores the multi-digit number currently being built.
+    long long result = 0;  // Stores the final result of all additions.
+    long long current_term =
+        0;  // Stores the value of the current term being multiplied.
+    char last_op = '+';  // Stores the last operator encountered.
+    long long current_num =
+        0;  // Stores the multi-digit number currently being built.
 
     for (int i = 0; i < expression.length(); ++i) {
         char c = expression[i];
@@ -48,10 +50,18 @@ int main() {
     std::string expr3 = "123*2+1";
     std::string expr4 = "9*80*7";
 
-    std::cout << "Evaluation of \"" << expr1 << "\": " << evaluateExpression(expr1)<< std::endl; // Expected: 12 + 15 = 27
-    std::cout << "Evaluation of \"" << expr2 << "\": " << evaluateExpression(expr2)<< std::endl; // Expected: 200 + 30 = 230
-    std::cout << "Evaluation of \"" << expr3 << "\": " << evaluateExpression(expr3)<< std::endl; // Expected: 246 + 1 = 247
-    std::cout << "Evaluation of \"" << expr4 << "\": " << evaluateExpression(expr4)<< std::endl; // Expected: 5040
+    std::cout << "Evaluation of \"" << expr1
+              << "\": " << evaluateExpression(expr1)
+              << std::endl;  // Expected: 12 + 15 = 27
+    std::cout << "Evaluation of \"" << expr2
+              << "\": " << evaluateExpression(expr2)
+              << std::endl;  // Expected: 200 + 30 = 230
+    std::cout << "Evaluation of \"" << expr3
+              << "\": " << evaluateExpression(expr3)
+              << std::endl;  // Expected: 246 + 1 = 247
+    std::cout << "Evaluation of \"" << expr4
+              << "\": " << evaluateExpression(expr4)
+              << std::endl;  // Expected: 5040
 
     return 0;
 }
