@@ -4,7 +4,7 @@
         {
             "label": "Compile and Run",
             "type": "shell",
-            "command": "clear; if [[ '${fileExtname}' == '.cpp' || '${fileExtname}' == '.cxx' || '${fileExtname}' == '.cc' ]]; then g++ -o ${fileDirname}/${fileBasenameNoExtension} ${file} && ${fileDirname}/${fileBasenameNoExtension}; else gcc -o ${fileDirname}/${fileBasenameNoExtension} ${file} && ${fileDirname}/${fileBasenameNoExtension}; fi",
+            "command": "clear; if [[ '${fileExtname}' == '.cpp' || '${fileExtname}' == '.cxx' || '${fileExtname}' == '.cc' ]]; then g++ -o ${fileDirname}/${fileBasenameNoExtension} ${file}.out && ${fileDirname}/${fileBasenameNoExtension}; else gcc -o ${fileDirname}/${fileBasenameNoExtension}.out ${file} && ${fileDirname}/${fileBasenameNoExtension}.out; fi",
             "group": {
                 "kind": "build",
                 "isDefault": true
