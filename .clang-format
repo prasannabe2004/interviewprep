@@ -1,13 +1,7 @@
-BasedOnStyle: Google
-BraceWrapping:
-  AfterFunction: false
-  AfterClass: false
-  AfterControlStatement: Never
-  AfterEnum: false
-  AfterNamespace: false
-  AfterStruct: false
-  AfterUnion: false
-BreakBeforeBraces: Attach
-IndentWidth: 4
-TabWidth: 4
-UseTab: Never
+Language:        Cpp
+BasedOnStyle:    LLVM
+IndentWidth:     4
+ColumnLimit:     100
+AllowShortFunctionsOnASingleLine: false
+SortIncludes:    true
+PointerAlignment: Left
