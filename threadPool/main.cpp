@@ -1,6 +1,3 @@
-// C++ Program to demonstrate thread pooling
-
-#include <chrono>
 #include <condition_variable>
 #include <functional>
 #include <iostream>
@@ -8,113 +5,77 @@
 #include <queue>
 #include <sstream>
 #include <thread>
-using namespace std;
+#include <vector>
 
-// Mutex to synchronize console output
-static std::mutex cout_mutex;
+std::string get_thread_id() {
+    auto myid = std::this_thread::get_id();
+    std::stringstream ss;
+    ss << myid;
+    std::string mystr = ss.str();
+    return mystr;
+}
 
-// Class that represents a simple thread pool
 class ThreadPool {
   public:
-    // Constructor to create a thread pool with given number of threads
-    ThreadPool(size_t num_threads = thread::hardware_concurrency()) {
-        // Creating worker threads
-        for (size_t i = 0; i < num_threads; ++i) {
-            threads_.emplace_back([this] {
-                while (true) {
-                    function<void()> task;
-
-                    // Lock the queue while waiting for a task or stop signal
-                    unique_lock<mutex> lock(queue_mutex_);
-
-                    // Waiting until there is a task to execute or the pool is stopped
-                    cv_.wait(lock, [this] { return !tasks_.empty() || stop_; });
-
-                    // exit the thread in case the pool is stopped and there are no tasks
-                    if (stop_ && tasks_.empty()) {
+    ThreadPool(size_t numThreads) : stop(false) {
+        std::cout << "Initializing Thread Pool with " << numThreads << " threads.\n";
+        for (size_t i = 0; i < numThreads; ++i) {
+            workers.emplace_back([this] {
+                for (;;) {
+                    std::unique_lock<std::mutex> lock(queueMutex);
+                    condition.wait(lock, [this] { return stop || !tasks.empty(); });
+                    if (stop && tasks.empty())
                         return;
-                    }
-
-                    // Get the next task from the queue
-                    task = move(tasks_.front());
-                    tasks_.pop();
-
-                    // explicitly unlock before executing the task so other threads can enqueue
-                    lock.unlock();
-
-                    task();
+                    auto task = std::move(tasks.front()); // Excract task from tasks list.
+                    tasks.pop();   // Remove task from list as going to execute it.
+                    lock.unlock(); // Unlock mutex, so another thread can accept the tasks.
+                    task();        // Run The Task
                 }
             });
         }
     }
 
-    // Destructor to stop the thread pool
-    ~ThreadPool() {
-        {
-            // Lock the queue to update the stop flag safely
-            unique_lock<mutex> lock(queue_mutex_);
-            stop_ = true;
-        }
-
-        // Notify all threads
-        cv_.notify_all();
-
-        // Joining all worker threads to ensure they have completed their tasks
-        for (auto& thread : threads_) {
-            thread.join();
-        }
+    template <class F> void enqueue(F&& task) {
+        std::unique_lock<std::mutex> lock(queueMutex);
+        tasks.emplace(std::forward<F>(task));
+        lock.unlock();
+        condition.notify_one();
     }
 
-    // Enqueue task for execution by the thread pool
-    void enqueue(function<void()> task) {
-        {
-            unique_lock<std::mutex> lock(queue_mutex_);
-            tasks_.emplace(move(task));
-        }
-        cv_.notify_one();
+    ~ThreadPool() {
+        std::unique_lock<std::mutex> lock(queueMutex);
+        stop = true;
+        lock.unlock();
+        condition.notify_all();
+        for (std::thread& worker : workers)
+            worker.join();
     }
 
   private:
-    // Vector to store worker threads
-    vector<thread> threads_;
+    std::vector<std::thread> workers;
+    std::queue<std::function<void()>> tasks;
 
-    // Queue of tasks
-    queue<function<void()>> tasks_;
-
-    // Mutex to synchronize access to shared data
-    mutex queue_mutex_;
-
-    // Condition variable to signal changes in the state of the tasks queue
-    condition_variable cv_;
-
-    // Flag to indicate whether the thread pool should stop or not
-    bool stop_ = false;
+    std::mutex queueMutex;
+    std::condition_variable condition;
+    bool stop;
 };
 
-// Named task function
-void task_function(int i) {
-    // Build the message first to avoid interleaving multiple << calls
-    std::ostringstream oss;
-    oss << "Task " << i << " is running on thread " << this_thread::get_id() << '\n';
-
-    // Print the message under a short lock
-    {
-        std::lock_guard<std::mutex> lock(cout_mutex);
-        std::cout << oss.str();
-    }
-
-    // Simulate work (do not hold the cout lock while sleeping)
-    this_thread::sleep_for(chrono::milliseconds(100));
-}
-
 int main() {
-    // Create a thread pool with 4 threads
-    ThreadPool pool(4);
 
-    // Enqueue tasks for execution using the named function
-    for (int i = 1; i <= 10; ++i) {
-        pool.enqueue(std::bind(task_function, i));
+    ThreadPool pool(2); // Create a pool with N number of worker threads
+
+    std::cout << "Thread Pool Created\n";
+    std::cout << "Enqueue (Assign) some tasks \n";
+
+    for (int i = 0; i < 4; ++i) {
+        pool.enqueue([i] {
+            printf("Task %d executed by %s thread \n", i, get_thread_id().c_str());
+            std::this_thread::sleep_for(std::chrono::seconds(1)); // Simulate some work
+        });
     }
+
+    // Main thread continues doing other things
+    // while the tasks are executed in the background
 
     return 0;
 }
