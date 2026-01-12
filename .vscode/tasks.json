@@ -2,22 +2,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile and Run",
+            "label": "compile",
             "type": "shell",
-            "command": "clear; if [[ '${fileExtname}' == '.cpp' || '${fileExtname}' == '.cxx' || '${fileExtname}' == '.cc' ]]; then g++ -o ${fileDirname}/${fileBasenameNoExtension}.out ${file} && ${fileDirname}/${fileBasenameNoExtension}.out; else gcc -o ${fileDirname}/${fileBasenameNoExtension}.out ${file} && ${fileDirname}/${fileBasenameNoExtension}.out; fi",
+            "command": "if [[ \"${fileExtname}\" == \".c\" ]]; then gcc -o ${fileBasenameNoExtension} ${file}; else g++ -std=c++17 -o ${fileBasenameNoExtension} ${file}; fi",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "compile and run",
+            "type": "shell",
+            "command": "if [[ \"${fileExtname}\" == \".c\" ]]; then gcc -o ${fileBasenameNoExtension}.out ${file}; else g++ -std=c++17 -o ${fileBasenameNoExtension}.out ${file}; fi && ./${fileBasenameNoExtension}.out",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared",
-                "focus": false,
-                "clear": true,
-                "echo": true,
-                "showReuseMessage": true
-            },
-            "detail": "Automatically compiles and runs C/C++ files using the appropriate compiler."
+            }
         }
     ]
 }

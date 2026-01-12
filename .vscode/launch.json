@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/ppadmoh/git/interviewprep",
-      "program": "/Users/ppadmoh/git/interviewprep/build/Debug/outDebug"
+      "cwd": "/Users/ppadmoh/git/neetcode",
+      "program": "/Users/ppadmoh/git/neetcode/build/Debug/outDebug"
     }
   ]
 }
