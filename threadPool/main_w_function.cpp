@@ -1,7 +1,9 @@
 // thread_pool_unlock_no_braces.cpp
 // Compile: g++ -std=c++17 thread_pool_unlock_no_braces.cpp -pthread -O2
 
+#include <chrono>
 #include <condition_variable>
+#include <cstdio>
 #include <functional>
 #include <iostream>
 #include <mutex>
@@ -9,8 +11,6 @@
 #include <sstream>
 #include <thread>
 #include <vector>
-#include <chrono>
-#include <cstdio>
 
 // Helper to get thread id as string
 std::string get_thread_id() {
@@ -20,13 +20,20 @@ std::string get_thread_id() {
 }
 
 class ThreadPool {
-public:
+  private:
+    std::vector<std::thread> workers;
+    std::queue<std::function<void()>> tasks;
+
+    std::mutex queueMutex;
+    std::condition_variable condition;
+    bool stop;
+
+  public:
     explicit ThreadPool(std::size_t numThreads) : stop(false) {
         if (numThreads == 0)
             numThreads = 1;
 
-        std::cout << "Initializing Thread Pool with "
-                  << numThreads << " threads.\n";
+        std::cout << "Initializing Thread Pool with " << numThreads << " threads.\n";
 
         for (std::size_t i = 0; i < numThreads; ++i) {
             workers.emplace_back(&ThreadPool::workerThread, this);
@@ -51,8 +58,7 @@ public:
     }
 
     // Enqueue a task (callable object)
-    template <class F>
-    void enqueue(F&& task) {
+    template <class F> void enqueue(F&& task) {
         std::unique_lock<std::mutex> lock(queueMutex);
         tasks.emplace(std::forward<F>(task));
         lock.unlock();
@@ -60,7 +66,7 @@ public:
         condition.notify_one();
     }
 
-private:
+  private:
     void workerThread() {
         while (true) {
             std::function<void()> task;
@@ -89,34 +95,22 @@ private:
             task();
         }
     }
-
-    std::vector<std::thread> workers;
-    std::queue<std::function<void()>> tasks;
-
-    std::mutex queueMutex;
-    std::condition_variable condition;
-    bool stop;
 };
 
-// A task functor (no lambda)
-struct PrintTask {
-    int id;
-
-    void operator()() const {
-        std::printf("Task %d executed by thread %s\n",
-                    id, get_thread_id().c_str());
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-};
+// A simple task function
+void printTask(int id) {
+    std::printf("Task %d executed by thread %s\n", id, get_thread_id().c_str());
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+}
 
 int main() {
-    ThreadPool pool(2);   // Create 2 worker threads
+    ThreadPool pool(2); // Create 2 worker threads
 
     std::cout << "Thread Pool Created\n";
     std::cout << "Enqueue (assign) some tasks\n";
 
     for (int i = 0; i < 4; ++i) {
-        pool.enqueue(PrintTask{i});
+        pool.enqueue(std::bind(printTask, i));
     }
 
     // main returns -> destructor joins threads
