@@ -1,0 +1,229 @@
+Data Structures and Algorithms Patterns and Problems (Sorted by Priority for Embedded Principal Engineer Role)
+
+1. Bitwise XOR
+   - [ ] Single number
+   - [ ] Two single numbers
+   - [ ] Single number III
+   - [ ] Complement of base 10 integer
+   - [ ] Flipping an image
+
+2. Stack
+   - [ ] Valid parentheses
+   - [ ] Simplify path
+   - [ ] Min stack
+   - [ ] Largest rectangle in histogram
+   - [ ] Trapping rain water
+
+3. Queue
+   - [ ] Implement queue using stacks
+   - [ ] Sliding window maximum
+   - [ ] Rotten oranges
+   - [ ] Walls and gates
+
+4. Hash Table
+   - [ ] Two sum
+   - [ ] Group anagrams
+   - [ ] Longest substring without repeating characters
+   - [ ] Subarray sum equals K
+   - [ ] First unique character in string
+
+5. Heap
+   - [ ] Kth largest element
+   - [ ] Merge K sorted lists
+   - [ ] Top K frequent elements
+   - [ ] Find median in stream
+   - [ ] Sliding window maximum
+
+6. Tree BFS
+   - [ ] Binary tree level order traversal
+   - [ ] Zigzag traversal
+   - [ ] Level averages in a binary tree
+   - [ ] Minimum depth of a binary tree
+   - [ ] Level order successor
+   - [ ] Connect level order siblings
+
+7. Tree DFS
+   - [ ] Binary tree path sum
+   - [ ] All paths for a sum
+   - [ ] Sum of path numbers
+   - [ ] Path with maximum sum
+   - [ ] Tree diameter
+   - [ ] Maximum path sum
+
+8. Graph Traversal
+   - [ ] BFS
+   - [ ] DFS
+   - [ ] Shortest path in unweighted graph
+   - [ ] Cycle detection
+   - [ ] Topological sort
+   - [ ] Strongly connected components
+
+9. Dynamic Programming
+   - [ ] 0/1 Knapsack variants
+   - [ ] Unbounded Knapsack
+   - [ ] Fibonacci
+   - [ ] Palindromic Subsequence
+   - [ ] Longest Common Substring/Subsequence
+   - [ ] Matrix Chain Multiplication
+   - [ ] Egg Dropping Problem
+   - [ ] Longest Increasing Subsequence
+   - [ ] Box Stacking
+   - [ ] Partition Problem
+
+10. Greedy
+    - [ ] Jump game
+    - [ ] Gas station
+    - [ ] Candy
+    - [ ] Task scheduler
+    - [ ] Minimum number of arrows to burst balloons
+
+11. Sliding Window
+    - [ ] Longest substring without repeating characters
+    - [ ] Longest substring with k distinct characters
+    - [ ] Minimum size subarray sum
+    - [ ] Maximum sum subarray of size K
+    - [ ] Longest substring with at most K distinct characters
+    - [ ] Smallest subarray with a given sum
+    - [ ] Fruits into Baskets (LeetCode 904)
+    - [ ] Longest Repeating Character Replacement
+
+12. Two Pointers
+    - [ ] Pair with target sum
+    - [ ] Remove duplicates from sorted array
+    - [ ] Squaring a sorted array
+    - [ ] Triplet sum to zero
+    - [ ] Triplet sum close to target
+    - [ ] Triplets with smaller sum
+    - [ ] Subarrays with product less than a target
+    - [ ] Dutch national flag problem
+
+13. Fast and Slow Pointers
+    - [ ] Linked list cycle detection
+    - [ ] Middle of the linked list
+    - [ ] Start of linked list cycle
+    - [ ] Happy number
+    - [ ] Palindrome linked list
+
+14. Merge Intervals
+    - [ ] Merge overlapping intervals
+    - [ ] Insert interval
+    - [ ] Intervals intersection
+    - [ ] Maximum CPU load
+    - [ ] Employee free time
+
+15. Cyclic Sort
+    - [ ] Find the missing number
+    - [ ] Find all missing numbers
+    - [ ] Find the duplicate number
+    - [ ] Find all duplicates in an array
+    - [ ] Find the corrupt pair
+
+16. In-place Reversal of Linked List
+    - [ ] Reverse a linked list
+    - [ ] Reverse a sublist
+    - [ ] Reverse every K-element sublist
+    - [ ] Reverse alternating K-element sublist
+
+17. Two Heaps
+    - [ ] Find the median of a number stream
+    - [ ] Sliding window median
+    - [ ] Maximize capital
+    - [ ] IPO (Initial Public Offering)
+
+18. Subsets
+    - [ ] Subsets
+    - [ ] Subsets with duplicates
+    - [ ] Permutations
+    - [ ] String permutations by changing case
+    - [ ] Balanced parentheses
+    - [ ] Unique generalized abbreviations
+
+19. Modified Binary Search
+    - [ ] Order-agnostic binary search
+    - [ ] Ceiling of a number
+    - [ ] Next letter
+    - [ ] Number range
+    - [ ] Search in a sorted infinite array
+    - [ ] Minimum difference element
+    - [ ] Bitonic array maximum
+
+20. Top K Elements
+    - [ ] Top K numbers
+    - [ ] Kth smallest number
+    - [ ] K closest points to origin
+    - [ ] Connect ropes
+    - [ ] Top K frequent numbers
+    - [ ] Frequency sort
+    - [ ] Kth largest number in a stream
+    - [ ] Rearrange string
+
+21. K-way Merge
+    - [ ] Merge K sorted lists
+    - [ ] Kth smallest number in M sorted lists
+    - [ ] Kth smallest number in a sorted matrix
+    - [ ] Smallest number range
+
+22. 0/1 Knapsack
+    - [ ] 0/1 Knapsack
+    - [ ] Equal subset sum partition
+    - [ ] Subset sum
+    - [ ] Minimum subset sum difference
+    - [ ] Count of subset sum
+    - [ ] Target sum
+
+23. Unbounded Knapsack
+    - [ ] Coin change
+    - [ ] Minimum coin change
+    - [ ] Maximum ribbon cut
+    - [ ] Rod cutting
+
+24. Fibonacci Numbers
+    - [ ] Fibonacci numbers
+    - [ ] Staircase
+    - [ ] Number factors
+    - [ ] Minimum jumps to reach the end
+    - [ ] Minimum jumps with fee
+    - [ ] House thief
+
+25. Palindromic Subsequence
+    - [ ] Longest palindromic subsequence
+    - [ ] Longest palindromic substring
+    - [ ] Count of palindromic substrings
+    - [ ] Palindromic partitions
+
+26. Longest Common Substring
+    - [ ] Longest common substring
+    - [ ] Longest common subsequence
+    - [ ] Shortest common supersequence
+    - [ ] Minimum deletions to make a string palindrome
+    - [ ] Edit distance
+
+27. Topological Sort
+    - [ ] Topological sort
+    - [ ] Tasks scheduling
+    - [ ] Tasks scheduling with order
+    - [ ] All tasks scheduling orders
+    - [ ] Alien dictionary
+
+28. Matrix Traversal
+    - [ ] Number of islands
+    - [ ] Max area of island
+    - [ ] Number of closed islands
+    - [ ] Flood fill
+    - [ ] Surrounded regions
+    - [ ] Walls and gates
+
+29. Backtracking
+    - [ ] Subsets
+    - [ ] Permutations
+    - [ ] N-queens
+    - [ ] Word search
+    - [ ] Combination sum
+    - [ ] Expression add operators
+
+30. Trie
+    - [ ] Implement Trie
+    - [ ] Word search II
+    - [ ] Auto-complete
+    - [ ] Word break
+    - [ ] Concatenated words 
