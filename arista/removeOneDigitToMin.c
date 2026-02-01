@@ -34,14 +34,14 @@ void removeOneToMin(char* num) {
     while (num[start] == '0' && num[start + 1] != '\0') {
         start++;
     }
-    
+
     if (start > 0) {
         memmove(num, &num[start], strlen(&num[start]) + 1);
     }
 }
 
 int main() {
-    char number[100]="14356";
+    char number[100] = "14356";
 
     removeOneToMin(number);
 

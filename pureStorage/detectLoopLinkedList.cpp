@@ -25,34 +25,57 @@ class Solution {
         }
         return false; // No loop detected
     }
-    bool fixLoop(ListNode* head) {
+
+    ListNode* startOfLoop(ListNode* head) {
         ListNode* slow = head;
         ListNode* fast = head;
 
         // Detect loop
-        bool hasLoop = false;
         while (fast != nullptr && fast->next != nullptr) {
             slow = slow->next;
             fast = fast->next->next;
 
             if (slow == fast) {
-                hasLoop = true;
                 break;
             }
         }
 
-        if (!hasLoop) {
-            return false; // No loop detected
+        if (fast == nullptr || fast->next == nullptr) {
+            return nullptr; // No loop detected
         }
 
-        // Find entry point of the loop
         slow = head;
         while (slow != fast) {
             slow = slow->next;
             fast = fast->next;
         }
-        slow->next = nullptr; // Break the loop
-        return true;          // Entry point of the loop
+        return slow; // Entry point of the loop
+    }
+    bool fixLoop(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        // Detect loop
+        while (fast != nullptr && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if (slow == fast) {
+                break;
+            }
+        }
+
+        if (slow == fast) {
+            slow = head;
+            while (slow->next != fast->next) {
+                slow = slow->next;
+                fast = fast->next;
+            }
+            fast->next = nullptr;
+            return true;
+        } else {
+            return false;
+        }
     }
 };
 
@@ -66,6 +89,13 @@ int main() {
 
     bool hasLoop = solution.detectLoop(head);
     cout << "Linked List has loop: " << (hasLoop ? "Yes" : "No") << endl;
+
+    if (hasLoop) {
+        Solution::ListNode* start = solution.startOfLoop(head);
+        if (start != nullptr) {
+            cout << "Start of the loop " << start->val << endl;
+        }
+    }
 
     if (hasLoop) {
         bool loopFixed = solution.fixLoop(head);
