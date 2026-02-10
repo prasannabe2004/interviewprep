@@ -60,15 +60,15 @@ event_complete is already true, and the cv_.wait would return immediately withou
 thread to sleep.
 
 */
-mutex mutex_;
+mutex event_mutex;
 condition_variable cv_;
 bool event_complete = false;
 
 // The method called by multiple users
 void reg_cb(int user_id) {
     cout << "User " << user_id << ": called reg_cb" << endl;
-    unique_lock<mutex> lock(mutex_);
-    cout << "User " << user_id << ": Got Mutex. Waiting for event to complete." << endl;
+    unique_lock<mutex> lock(event_mutex);
+    cout << "User " << user_id << ": Got Mutex. Releasing lock and waiting for event." << endl;
 
     // Wait until the event_complete flag becomes true
     // The wait function atomically releases the lock and blocks the thread.
@@ -88,7 +88,7 @@ void event_handler() {
 
     // Lock the mutex to modify the shared flag and notify waiting threads
     {
-        lock_guard<mutex> lock(mutex_);
+        lock_guard<mutex> lock(event_mutex);
         event_complete = true;
         cout << "Event handler: Event complete. Notifying all waiting users." << endl;
     }

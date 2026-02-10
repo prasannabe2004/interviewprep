@@ -21,7 +21,7 @@ class Solution {
             l1->next = mergeTwoListsRecursive(l1->next, l2);
             return l1;
         } else {
-            l2->next = mergeTwoLists(l1, l2->next);
+            l2->next = mergeTwoListsRecursive(l1, l2->next);
             return l2;
         }
     }
@@ -60,7 +60,7 @@ int main() {
     l2->next = new Solution::ListNode(4);
     l2->next->next = new Solution::ListNode(6);
 
-    Solution::ListNode* merged = solution.mergeTwoLists(l1, l2);
+    Solution::ListNode* merged = solution.mergeTwoListsRecursive(l1, l2);
 
     cout << "Merged linked list: ";
     while (merged != nullptr) {
