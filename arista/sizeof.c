@@ -12,5 +12,7 @@ int main() {
 
     int size = *(&arr + 1) - arr;
     printf("Size of array is %d\n", size);
+    void* ptr;
+    printf("Size of ptr is %lu\n", sizeof(ptr));
     return 0;
 }

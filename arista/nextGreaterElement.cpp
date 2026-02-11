@@ -70,7 +70,6 @@ class Solution {
     Space Complexity: O(1)
     */
     string nextPermutation(string N) {
-        // If number of digits is 1 then just return the vector
         if (N.length() == 1) {
             return "Not Possible";
         }
@@ -85,13 +84,10 @@ class Solution {
         cout << "Pivot element i: " << i << " " << N[i] << endl;
 
         // If i is 0 that means elements are in decreasing order
-        // Therefore, no greater element possible
         if (i == 0) {
             return "Not Possible";
         }
 
-        // Find the smallest digit on right side of (i-1)'th
-        // digit that is greater than N[i-1]
         for (int j = N.length() - 1; j >= i; j--) {
             if (N[i - 1] < N[j]) {
                 // Swap the found smallest digit i.e. N[j]
@@ -103,11 +99,8 @@ class Solution {
             }
         }
 
-        // Reverse the digits after (i-1) because the digits
-        // after (i-1) are in decreasing order and thus we will
-        // get the smallest element possible from these digits
+        // Reverse the digits after (i-1)
         reverse(N.begin() + i, N.end());
-        cout << "Reversed string " << N << endl;
 
         return N;
     }
