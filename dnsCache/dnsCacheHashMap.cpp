@@ -10,6 +10,7 @@
 
 typedef enum { RECORD_A, RECORD_CNAME } record_type_t;
 
+/* ---------------- DNS Record ---------------- */
 typedef struct dns_record {
     char domain[MAX_DOMAIN_LEN];
     record_type_t type;
@@ -26,6 +27,7 @@ typedef struct dns_record {
     struct dns_record* next;
 } dns_record_t;
 
+/* ---------------- DNS Table ---------------- */
 dns_record_t* dns_table[TABLE_SIZE] = {0};
 
 /* ---------------- Hash Function ---------------- */
@@ -38,9 +40,11 @@ unsigned int hash(const char* str) {
 
 /* ---------------- Insert A Record ---------------- */
 void insert_a_record(const char* domain, char ips[][16], int ip_count, int ttl_seconds) {
+
+    // Find the index for the domain
     unsigned int index = hash(domain);
 
-    dns_record_t* rec = malloc(sizeof(dns_record_t));
+    dns_record_t* rec = (dns_record_t*)malloc(sizeof(dns_record_t));
     if (!rec)
         return;
 
@@ -54,7 +58,9 @@ void insert_a_record(const char* domain, char ips[][16], int ip_count, int ttl_s
 
     rec->expiry = time(NULL) + ttl_seconds;
 
+    // Insert at head of the linked list for this index
     rec->next = dns_table[index];
+    // Update the head of the linked list
     dns_table[index] = rec;
 }
 
@@ -62,7 +68,7 @@ void insert_a_record(const char* domain, char ips[][16], int ip_count, int ttl_s
 void insert_cname_record(const char* domain, const char* cname, int ttl_seconds) {
     unsigned int index = hash(domain);
 
-    dns_record_t* rec = malloc(sizeof(dns_record_t));
+    dns_record_t* rec = (dns_record_t*)malloc(sizeof(dns_record_t));
     if (!rec)
         return;
 
