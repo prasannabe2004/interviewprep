@@ -1,0 +1,3 @@
+/*
+Implement a Trie data structure with insert and search functionalities.
+*/

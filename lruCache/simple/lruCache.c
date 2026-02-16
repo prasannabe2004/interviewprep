@@ -51,16 +51,21 @@ void lru_init(lru_cache_t *c) {
     memset(c, 0, sizeof(*c));
     for (int i = 0; i < CAPACITY; ++i) {
         c->nodes[i].used = false;
-        c->nodes[i].prev = c->nodes[i].next = NULL_IDX;
+        c->nodes[i].prev = NULL_IDX;
+        c->nodes[i].next = NULL_IDX;
     }
-    // Initialize free list: 0 -> 1 -> 2 -> ...
+    // Initialize free list: 0 <-> 1 <-> 2 <-> ...
     c->free_head = 0;
     for (int i = 0; i < CAPACITY; ++i) {
+        c->nodes[i].prev = (i == 0) ? NULL_IDX : (i-1);
         c->nodes[i].next = (i == CAPACITY-1) ? NULL_IDX : (i+1);
     }
-    c->head = c->tail = NULL_IDX;
+    c->head = NULL_IDX;
+    c->tail = NULL_IDX;
     c->size = 0;
-    for (int i = 0; i < HT_SIZE; ++i) c->ht[i] = NULL_IDX;
+    for (int i = 0; i < HT_SIZE; ++i) {
+        c->ht[i] = NULL_IDX;
+    }
 }
 
 // Pop an index from free list, return NULL_IDX if none
@@ -171,6 +176,9 @@ bool lru_get(lru_cache_t *c, uint32_t key, uint32_t *value) {
 // Public API: put key/value
 bool lru_put(lru_cache_t *c, uint32_t key, uint32_t value) {
     idx_t idx = ht_find(c, key);
+
+    // Found entry in hash table
+    // Move entry to the head
     if (idx != NULL_IDX) {
         // update value + move to head
         c->nodes[idx].value = value;
