@@ -2,6 +2,7 @@
 #include <pthread.h> /* To acquire mutex */
 #include <queue>     /*To hold all the tasks which needs to be executed */
 #include <unistd.h>  /* For Sleep */
+#include <stdint.h>
 
 using namespace std;
 
