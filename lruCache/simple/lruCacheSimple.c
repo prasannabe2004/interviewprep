@@ -21,16 +21,32 @@ struct LRUCache* createCache(int capacity) {
     cache->tail = (struct Node*)malloc(sizeof(struct Node));
     cache->head->next = cache->tail;
     cache->tail->prev = cache->head;
-    cache->hash = (struct Node**)calloc(100, sizeof(struct Node*)); // Simple hash
+    cache->hash = (struct Node**)calloc(10000, sizeof(struct Node*)); // Simple hash
     return cache;
 }
-void moveToHead(struct LRUCache* cache, struct Node* node) {
-    node->prev->next = node->next;
-    node->next->prev = node->prev;
-    node->next = cache->head->next;
+
+/*
+addNode: Adds a node right after the head (most recently used position).
+*/
+void addNode(struct LRUCache* cache, struct Node* node) {
     node->prev = cache->head;
+    node->next = cache->head->next;
     cache->head->next->prev = node;
     cache->head->next = node;
+}
+/*
+removeNode: Removes a node from the linked list.
+*/
+void removeNode(struct Node* node) {
+    node->prev->next = node->next;
+    node->next->prev = node->prev;
+}
+/*
+moveToHead: Moves a node to the head (most recently used position).
+*/
+void moveToHead(struct LRUCache* cache, struct Node* node) {
+    removeNode(node);
+    addNode(cache, node);
 }
 int get(struct LRUCache* cache, int key) {
     int idx = key % 10000;
@@ -52,12 +68,11 @@ void put(struct LRUCache* cache, int key, int value) {
         node->key = key;
         node->value = value;
         cache->hash[idx] = node;
-        moveToHead(cache, node);
+        addNode(cache, node);
         cache->size++;
         if (cache->size > cache->capacity) {
             struct Node* lru = cache->tail->prev;
-            lru->prev->next = cache->tail;
-            cache->tail->prev = lru->prev;
+            removeNode(lru);
             cache->hash[lru->key % 10000] = NULL;
             free(lru);
             cache->size--;
@@ -66,6 +81,7 @@ void put(struct LRUCache* cache, int key, int value) {
 }
 
 int main() {
+    printf("hello\n");
     struct LRUCache* cache = createCache(CAPACITY);
     put(cache, 1, 100);
     put(cache, 2, 200);
