@@ -4,7 +4,7 @@
 using namespace std;
 
 class TrieNode {
-   public:
+  public:
     TrieNode* child[2];
 
     TrieNode() {
@@ -16,12 +16,14 @@ class TrieNode {
 class Trie {
     TrieNode* root;
 
-   public:
-    Trie() { root = new TrieNode(); }
+  public:
+    Trie() {
+        root = new TrieNode();
+    }
 
     void insert(int num) {
         TrieNode* node = root;
-        for (int i = 31; i >= 0; i--) {  // Assuming 32-bit integers
+        for (int i = 31; i >= 0; i--) { // Assuming 32-bit integers
             int bit = (num >> i) & 1;
             if (!node->child[bit]) {
                 node->child[bit] = new TrieNode();
@@ -45,6 +47,31 @@ class Trie {
         }
         return maxXor;
     }
+
+    int insertAndGetMaxXOR(int num) {
+        TrieNode* insertNode = root;
+        TrieNode* queryNode = root;
+        int maxXor = 0;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+
+            // Insert logic
+            if (!insertNode->child[bit]) {
+                insertNode->child[bit] = new TrieNode();
+            }
+            insertNode = insertNode->child[bit];
+
+            // Query logic
+            int oppositeBit = 1 - bit;
+            if (queryNode->child[oppositeBit]) {
+                maxXor |= (1 << i);
+                queryNode = queryNode->child[oppositeBit];
+            } else {
+                queryNode = queryNode->child[bit];
+            }
+        }
+        return maxXor;
+    }
 };
 
 int findMaximumXOR(vector<int>& nums) {
@@ -52,11 +79,7 @@ int findMaximumXOR(vector<int>& nums) {
     int maxResult = 0;
 
     for (int num : nums) {
-        trie.insert(num);
-    }
-
-    for (int num : nums) {
-        maxResult = max(maxResult, trie.getMaxXOR(num));
+        maxResult = max(maxResult, trie.insertAndGetMaxXOR(num));
     }
 
     return maxResult;
