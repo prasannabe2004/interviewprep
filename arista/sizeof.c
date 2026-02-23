@@ -6,9 +6,11 @@ sizeof array without using sizeof operator
 
 int main() {
     int arr[5] = {1, 2, 3, 4, 5};
-    printf("Size of array is %lu\n", &arr);
-    printf("Size of array is %lu\n", arr);
-    printf("Size of array is %lu\n", *(&arr + 1));
+    printf("Size of array is %p\n", &arr);
+    printf("Size of array is %p\n", arr);
+    printf("Size of array is %p\n", arr + 1);
+    printf("Size of array is %p\n", &arr + 1);
+    printf("Size of array is %p\n", *(&arr + 1));
 
     int size = *(&arr + 1) - arr;
 

@@ -85,7 +85,6 @@ static void report_leaks() {
 
 /* Wrapped malloc */
 void* my_malloc(size_t size, const char* file, int line) {
-    init_real_funcs();
     void* ptr = real_malloc(size);
     if (ptr)
         add_entry(ptr, size, file, line);
@@ -94,7 +93,6 @@ void* my_malloc(size_t size, const char* file, int line) {
 
 /* Wrapped calloc */
 void* my_calloc(size_t nmemb, size_t size, const char* file, int line) {
-    init_real_funcs();
     void* ptr = real_calloc(nmemb, size);
     if (ptr)
         add_entry(ptr, nmemb * size, file, line);
@@ -103,7 +101,6 @@ void* my_calloc(size_t nmemb, size_t size, const char* file, int line) {
 
 /* Wrapped realloc */
 void* my_realloc(void* ptr, size_t size, const char* file, int line) {
-    init_real_funcs();
 
     if (ptr)
         remove_entry(ptr);
@@ -119,8 +116,6 @@ void* my_realloc(void* ptr, size_t size, const char* file, int line) {
 void my_free(void* ptr) {
     if (!ptr)
         return;
-
-    init_real_funcs();
     remove_entry(ptr);
     real_free(ptr);
 }
@@ -140,6 +135,7 @@ __attribute__((constructor)) static void init() {
 
 int main() {
 
+    init_real_funcs();
     int* a = (int*)malloc(100);
     int* b = (int*)malloc(200);
 
