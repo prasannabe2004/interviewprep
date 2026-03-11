@@ -1,0 +1,1 @@
+Write a file synchronization protocol between Nord A and Nord B the transfer should be efficient for very large files. The transfer should also support or resume the download or sync when interrupted. Make sure the transfer is also encrypted for confidentiality purposes.
